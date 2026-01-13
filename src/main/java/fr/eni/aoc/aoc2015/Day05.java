@@ -3,7 +3,7 @@ package fr.eni.aoc.aoc2015;
 import fr.eni.aoc.BaseDay;
 
 import java.io.BufferedReader;
-import java.util.Arrays;
+import java.util.*;
 
 public class Day05 extends BaseDay {
 
@@ -100,62 +100,75 @@ public class Day05 extends BaseDay {
             }
 
             if (!isOk) {
+                System.out.println("KO : " + line);
                 continue;
             }
-
-            isOk = false;
 
             // It contains a pair of any two letters that appears at least twice in
             // the string without overlapping, like xyxy (xy) or aabcdefgaa (aa),
             // but not like aaa (aa, but it overlaps).
 
-
+            // Remove overlaps
             for (int i = 1; i < (bytes.length - 1); i++) {
                 byte previous = bytes[i - 1];
                 byte current = bytes[i];
                 byte next = bytes[i + 1];
 
-                if (previous == next) {
-                    continue;
-                }
-
-                String str = "";
-
-                if (previous == current) {
-                    str += (char) previous;
-                    str += (char) current;
-                    isOk = true;
-                } else if (current == next) {
-                    str += (char) current;
-                    str += (char) next;
-                    isOk = true;
-                }
-
-                if (!str.isEmpty()) {
-                    line = line.replaceAll(str, "_");
+                if (previous == current && previous == next) {
+                    String str = "" + ((char) previous) + ((char) current) + ((char) next);
+                    line = line.replaceAll(str, "");
                 }
             }
 
-            if (!isOk) {
+            Set<String> duplicates = extractDuplicates(line);
+
+            if (duplicates.isEmpty()) {
+                System.out.println("KO : " + line);
                 continue;
             }
 
-            int l = 0;
-            for (char c : line.toCharArray()) {
-                if (c == '_') {
-                    l++;
-                }
-            }
-
-            if (l > 1) {
-                System.out.println(line);
-                total++;
-            }
-
-
-
+            System.out.println(" ");
+            System.out.println(line + " => " + String.join(", ", duplicates));
+            total++;
         }
 
+        System.out.println(" ");
         System.out.println("Answer 2 : " + total);
+    }
+
+
+    private Set<String> extractDuplicates(String line) {
+        Set<String> duplicates = new HashSet<>();
+
+        for (int i = 0; i < (line.length() - 1); i++) {
+            char curr = line.charAt(i);
+            char next = line.charAt(i + 1);
+
+            String needed = "" + curr + next;
+            int count = countDuplicates(line, needed);
+
+            if (count >= 2) {
+                duplicates.add(needed);
+            }
+        }
+
+        return duplicates;
+    }
+
+    private int countDuplicates(String line, String needed) {
+        int count = 0;
+
+        for (int i = 0; i < (line.length() - 1); i++) {
+            char curr = line.charAt(i);
+            char next = line.charAt(i + 1);
+
+            String pattern = "" + curr + next;
+
+            if (pattern.equals(needed)) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
