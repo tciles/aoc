@@ -21,23 +21,6 @@ public class Day09 extends BaseDay {
 
     @Override
     protected void answerOne() throws Exception {
-        BufferedReader reader = getInputContent();
-
-        Map<String, Integer> dists = new HashMap<>();
-        Set<String> places = new HashSet<>();
-
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-
-            String[] split = line.split(" ");
-
-            places.add(split[0]);
-            places.add(split[2]);
-
-            dists.put(split[0]+split[2], parseInt(split[4]));
-            dists.put(split[2]+split[0], parseInt(split[4]));
-        }
     }
 
     @Override
