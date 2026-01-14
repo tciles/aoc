@@ -16,26 +16,66 @@ public class Day08 extends BaseDay {
     protected void answerOne() throws Exception {
         BufferedReader reader = getInputContent();
 
+        int code = 0;
+        int memory = 0;
+
         String line;
         while ((line = reader.readLine()) != null) {
-            System.out.println(line + " " + replaceHexadecimalCharacters(line));
+            int len = line.length();
+
+            code += len;
+
+            // On ne traite pas les guillemets
+            for(int i = 1; i < (len - 1); i++) {
+                char ch = line.charAt(i);
+
+                if (ch == '\\') {
+                    char next = line.charAt(i + 1);
+
+                    if (next == '\\' || next == '\"') {
+                        memory++;
+                        i += 1;
+                    } else if (next == 'x') {
+                        memory++;
+                        i += 3;
+                    }
+
+                } else {
+                    memory++;
+                }
+            }
         }
+
+        System.out.println("Answer 1 : " + (code - memory));
     }
 
     @Override
     protected void answerTwo() throws Exception {
-        /*
         BufferedReader reader = getInputContent();
+
+        int code = 0;
+        int totalCode = 0;
 
         String line;
         while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+            totalCode += line.length();
+            int escape = escape(line).length() + 2;
+
+            code += escape;
         }
 
-        int total = 0;
+        System.out.println("Answer 2 : " + (code - totalCode));
+    }
 
-        System.out.println("Answer 2 : " + total);
-        */
+    public static String escape(String s){
+        return s.replace("\\", "\\\\")
+                .replace("\t", "\\t")
+                .replace("\b", "\\b")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\f", "\\f")
+                .replace("\'", "\\'")      // <== not necessary
+                .replace("\"", "\\\"");
     }
 
     public String replaceHexadecimalCharacters(String input) {

@@ -1,6 +1,5 @@
-package aoc2015;
+package fr.eni.aoc.aoc2015;
 
-import fr.eni.aoc.aoc2015.Day08;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
