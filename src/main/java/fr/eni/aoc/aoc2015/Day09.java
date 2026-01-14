@@ -9,6 +9,12 @@ import static java.lang.Integer.parseInt;
 
 public class Day09 extends BaseDay {
 
+    private int n;
+    private boolean[] used;
+    private int[][] dist;
+    private int minSize = Integer.MAX_VALUE;
+    private int maxSize = Integer.MIN_VALUE;
+
     public Day09() {
         day = "09";
     }
@@ -38,7 +44,8 @@ public class Day09 extends BaseDay {
     protected void answerTwo() throws Exception {
         BufferedReader reader = getInputContent();
 
-        List<Move> moves = new ArrayList<>();
+        Map<String, Integer> indexes = new HashMap<>();
+        List<int[]> edges = new ArrayList<>();
 
         String line;
         while ((line = reader.readLine()) != null) {
@@ -49,90 +56,46 @@ public class Day09 extends BaseDay {
             String b = parts.get(1);
             int distance = parseInt(parts.get(2));
 
-            moves.add(new Move(a, b, distance));
-            moves.add(new Move(b, a, distance));
+            indexes.putIfAbsent(a, indexes.size());
+            indexes.putIfAbsent(b, indexes.size());
+
+            edges.add(new int[]{ indexes.get(a), indexes.get(b), distance });
         }
 
-        List<Route> routes = new ArrayList<>();
+        n = indexes.size();
+        dist = new int[n][n];
 
-        for (Move start : moves) {
-            Route route = new Route();
-            route.addMove(start);
-
-            for (Move next : moves) {
-                if (route.canAddMove(next)) {
-                    route.addMove(next);
-                }
-            }
-
-            routes.add(route);
+        for (int[] e : edges) {
+            dist[e[0]][e[1]] = e[2];
+            dist[e[1]][e[0]] = e[2];
         }
 
-        int min = Integer.MAX_VALUE;
+        used = new boolean[n];
 
-        for (Route route : routes) {
-            if (route.cities.size() < 8) {
-                continue;
-            }
-
-            System.out.println("---\nStart");
-            for (Move move : route.moves) {
-                System.out.println("->\t" + move);
-            }
-            System.out.println("Cities : " + route.cities.size());
-            System.out.println("Total : " + route.distance);
-            System.out.println("---");
-
-            if (route.distance < min) {
-                min = route.distance;
-            }
+        for (int i = 0; i < n; i++) {
+            used[i] = true;
+            dfs(i, 1, 0);
+            used[i] = false;
         }
 
-        System.out.println("Minimal distance : " + min);
+        System.out.println("Min : " + minSize);
+        System.out.println("Max : " + maxSize);
     }
 
-    private static class Move {
-        String from;
-        String to;
-        int distance;
-
-        Move(String from, String to, int distance) {
-            this.from = from;
-            this.to = to;
-            this.distance = distance;
+    private void dfs(int current, int count, int total) {
+        // Toutes les villes ont été parcourues
+        if (count == n) {
+            minSize = Math.min(minSize, total);
+            maxSize = Math.max(maxSize, total);
+            return;
         }
 
-        @Override
-        public String toString() {
-            return "Move(from=" + from + ", to=" + to + ", distance=" + distance + ")";
-        }
-    }
-
-    private static class Route {
-        List<String> cities = new ArrayList<>();
-        List<Move> moves = new ArrayList<>();
-        String lastCity = "";
-        int distance = 0;
-
-        boolean canAddMove(Move move) {
-            System.out.println(cities);
-
-            return lastCity.equals(move.from)
-                    && !cities.contains(move.to);
-        }
-
-        void addMove(Move move) {
-            if (!cities.contains(move.from)) {
-                cities.add(move.from);
+        for (int i = 0; i < n; i++) {
+            if (!used[i]) {
+                used[i] = true;
+                dfs(i, count + 1, total + dist[current][i]);
+                used[i] = false;
             }
-
-            if (!cities.contains(move.to)) {
-                cities.add(move.to);
-            }
-
-            this.moves.add(move);
-            lastCity = move.to;
-            distance += move.distance;
         }
     }
 }
