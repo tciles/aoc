@@ -19,7 +19,7 @@ public class Day02 extends BaseDay {
         String line;
         while ((line = reader.readLine()) != null) {
             int[] parts = Arrays.stream(line.split("x")).mapToInt(Integer::parseInt).toArray();
-            int l =  parts[0];
+            int l = parts[0];
             int w = parts[1];
             int h = parts[2];
 
@@ -47,7 +47,7 @@ public class Day02 extends BaseDay {
         String line;
         while ((line = reader.readLine()) != null) {
             int[] parts = Arrays.stream(line.split("x")).mapToInt(Integer::parseInt).toArray();
-            int l =  parts[0];
+            int l = parts[0];
             int w = parts[1];
             int h = parts[2];
 

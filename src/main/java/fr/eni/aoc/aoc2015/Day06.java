@@ -2,7 +2,10 @@ package fr.eni.aoc.aoc2015;
 
 import fr.eni.aoc.BaseDay;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -11,19 +14,19 @@ public class Day06 extends BaseDay {
     public Day06() {
         day = "06";
     }
-    
+
     private static class Operation {
         int[] from;
         int[] to;
-        
+
         public Operation(int[] from, int[] to) {
             this.from = from;
             this.to = to;
         }
-        
+
         public void apply(int[][] grid) {
-            for(int i = (from[0]); i < (to[0] + 1); i++) {
-                for(int j = (from[1]); j < (to[1] + 1); j++) {
+            for (int i = (from[0]); i < (to[0] + 1); i++) {
+                for (int j = (from[1]); j < (to[1] + 1); j++) {
                     grid[i][j] = process(grid[i][j]);
                 }
             }
@@ -43,7 +46,7 @@ public class Day06 extends BaseDay {
             return value;
         }
     }
-    
+
     private static class TurnOn extends Operation {
         TurnOn(String line) {
             super(new int[2], new int[2]);
@@ -56,7 +59,7 @@ public class Day06 extends BaseDay {
             return 1;
         }
     }
-    
+
     private static class TurnOff extends Operation {
         TurnOff(String line) {
             super(new int[2], new int[2]);
@@ -121,7 +124,7 @@ public class Day06 extends BaseDay {
             return value + 2;
         }
     }
-    
+
     @Override
     protected void answerOne() throws Exception {
         BufferedReader reader = getInputContent();
@@ -131,7 +134,7 @@ public class Day06 extends BaseDay {
         String line;
         while ((line = reader.readLine()) != null) {
             Operation op = null;
-            
+
             if (line.startsWith("turn on")) {
                 op = new TurnOn(line);
             } else if (line.startsWith("turn off")) {

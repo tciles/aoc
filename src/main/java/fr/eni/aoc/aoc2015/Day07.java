@@ -12,13 +12,13 @@ public class Day07 extends BaseDay {
     }
 
     private static class Wire {
-        private String name;
+        private final String name;
 
         private int value;
 
         private boolean isInitialized;
 
-        public Wire (String name) {
+        public Wire(String name) {
             if (isInteger(Objects.requireNonNull(name))) {
                 this.name = "__" + name + "__";
                 this.value = Integer.parseInt(name);
@@ -30,13 +30,13 @@ public class Day07 extends BaseDay {
             }
         }
 
-        public Wire (String name, int value) {
+        public Wire(String name, int value) {
             this(name);
 
             this.value = value;
         }
 
-        public Wire (String name, int value, boolean initialized) {
+        public Wire(String name, int value, boolean initialized) {
             this(name);
 
             this.value = value;
@@ -60,18 +60,18 @@ public class Day07 extends BaseDay {
             return isInitialized;
         }
 
-        public int getValue () {
+        public int getValue() {
             return value;
         }
 
-        public void setValue (int value) {
+        public void setValue(int value) {
             this.value = value;
             this.isInitialized = true;
         }
 
         @Override
         public String toString() {
-            return "Wire(pointer="+Integer.toHexString(hashCode())+", name="+name+", init="+isInitialized+", value="+value+")";
+            return "Wire(pointer=" + Integer.toHexString(hashCode()) + ", name=" + name + ", init=" + isInitialized + ", value=" + value + ")";
         }
 
         @Override
@@ -102,7 +102,7 @@ public class Day07 extends BaseDay {
             this.isEmitted = false;
         }
 
-        Operation (Wire leftWire, Wire rightWire, String operator, Wire destination) {
+        Operation(Wire leftWire, Wire rightWire, String operator, Wire destination) {
             this.leftWire = leftWire;
             this.rightWire = rightWire;
             this.operator = operator;
@@ -122,7 +122,7 @@ public class Day07 extends BaseDay {
 
         @Override
         public String toString() {
-            return "Operation(\n\tleft="+leftWire+", \n\toperator=\""+operator+"\", \n\tright="+rightWire+", \n\tdestination="+destination+", \n\temitted="+isEmitted+")";
+            return "Operation(\n\tleft=" + leftWire + ", \n\toperator=\"" + operator + "\", \n\tright=" + rightWire + ", \n\tdestination=" + destination + ", \n\temitted=" + isEmitted + ")";
         }
     }
 
@@ -186,7 +186,7 @@ public class Day07 extends BaseDay {
                         if (wires.containsKey(token)) {
                             operation.destination = wires.get(token);
                         } else {
-                            Wire w =  new Wire(token);
+                            Wire w = new Wire(token);
                             wires.put(token, w);
                             operation.destination = w;
                         }

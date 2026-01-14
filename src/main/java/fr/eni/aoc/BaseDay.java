@@ -1,7 +1,5 @@
 package fr.eni.aoc;
 
-import fr.eni.aoc.aoc2015.Day01;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,7 +13,7 @@ public class BaseDay {
         String path = "inputs/" + year + "/" + day + ".txt";
 
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path);
-        Objects.requireNonNull( inputStream );
+        Objects.requireNonNull(inputStream);
 
         return new BufferedReader(new InputStreamReader(inputStream));
     }

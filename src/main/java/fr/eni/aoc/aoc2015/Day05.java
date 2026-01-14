@@ -3,7 +3,8 @@ package fr.eni.aoc.aoc2015;
 import fr.eni.aoc.BaseDay;
 
 import java.io.BufferedReader;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Day05 extends BaseDay {
 

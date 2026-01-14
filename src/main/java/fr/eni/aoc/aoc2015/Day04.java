@@ -36,7 +36,7 @@ public class Day04 extends BaseDay {
             }
         }
 
-        System.out.println(result + " : " +  resultInt);
+        System.out.println(result + " : " + resultInt);
     }
 
     @Override
@@ -70,6 +70,6 @@ public class Day04 extends BaseDay {
             }
         }
 
-        System.out.println(result + " : " +  resultInt);
+        System.out.println(result + " : " + resultInt);
     }
 }

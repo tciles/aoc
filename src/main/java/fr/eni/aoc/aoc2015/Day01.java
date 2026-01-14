@@ -2,7 +2,7 @@ package fr.eni.aoc.aoc2015;
 
 import fr.eni.aoc.BaseDay;
 
-import java.io.*;
+import java.io.BufferedReader;
 import java.nio.charset.StandardCharsets;
 
 public class Day01 extends BaseDay {
